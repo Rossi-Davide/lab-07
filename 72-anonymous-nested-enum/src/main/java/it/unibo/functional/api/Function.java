@@ -22,13 +22,15 @@ public interface Function<I, O> {
      * @return A new {@code Function} that implements the identity function with the provided type
      * @param <T> the input (and output) type of the function
      */
+    /*APPUNTI CORREZIONE: identity non può essere un campo statico perchè non potrei passargli la type variable
+     * la type variable è un parametro che viene passato al metodo, un campo non può accettare parametri in input
+    */
     static <T> Function<T, T> identity() {
-        return new Function<T,T>() {
+        return new Function<T, T>() {
             @Override
             public T call(final T input) {
                 return input;
             }
         };
     }
-
 }
