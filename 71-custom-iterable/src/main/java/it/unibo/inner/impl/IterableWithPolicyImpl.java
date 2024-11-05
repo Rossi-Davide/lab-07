@@ -38,12 +38,19 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
 
         @Override
         public boolean hasNext() {
-            return (current >= 0 && current < collection.length) ? true : false; 
+            while (current < collection.length) {
+                if(predicate.test(collection[current])){
+                    return true;
+                } 
+                current++;
+            }
+
+            return false;
         }
 
         @Override
         public T next() {
-            return IterableWithPolicyImpl.this.collection[this.current++];
+            return collection[current++];
         }
     }
 }
