@@ -56,7 +56,7 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
 
         @Override
         public T next() {
-            return collection.get(current);
+            return collection.get(current++);
         }
     }
 }
