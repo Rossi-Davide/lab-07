@@ -8,7 +8,7 @@ import it.unibo.inner.api.Predicate;
 public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
 
     private final T[] collection;
-    private final Predicate<T> predicate;
+    private Predicate<T> predicate;
 
     public IterableWithPolicyImpl(final T[] objects,final  Predicate<T>  predicate){
         this.collection = objects;
@@ -30,8 +30,7 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
 
     @Override
     public void setIterationPolicy(final Predicate<T> filter) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setIterationPolicy'");
+        this.predicate = filter;
     }
 
     public class IteratorImpl implements Iterator<T>{
