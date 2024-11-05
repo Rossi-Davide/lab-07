@@ -1,17 +1,23 @@
 package it.unibo.inner.impl;
 
 import java.util.Iterator;
+import java.util.List;
 
 import it.unibo.inner.api.IterableWithPolicy;
 import it.unibo.inner.api.Predicate;
 
 public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
 
-    private final T[] collection;
+    /*Instead of using a raw array consider using a data structure such as 
+     * ArrayList or List. This allows the use of the collections' specific functions. 
+     * Eventually a defensive copy of the array can be created so that the elements can't be 
+     * modified by anyone
+    */
+    private final List<T> collection;
     private Predicate<T> predicate;
 
     public IterableWithPolicyImpl(final T[] objects,final  Predicate<T>  predicate){
-        this.collection = objects;
+        this.collection = List.of(objects);
         this.predicate = predicate;
     }
 
@@ -38,8 +44,8 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
 
         @Override
         public boolean hasNext() {
-            while (current < collection.length) {
-                if(predicate.test(collection[current])){
+            while (current < collection.size()) {
+                if(predicate.test(collection.get(current))){
                     return true;
                 } 
                 current++;
@@ -50,7 +56,7 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
 
         @Override
         public T next() {
-            return collection[current++];
+            return collection.get(current);
         }
     }
 }
