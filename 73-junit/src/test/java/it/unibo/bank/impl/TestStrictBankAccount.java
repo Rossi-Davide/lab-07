@@ -6,7 +6,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+
+import org.junit.jupiter.api.Assertions;
 
 /**
  * Test class for the {@link StrictBankAccount} class.
@@ -18,6 +23,7 @@ class TestStrictBankAccount {
     private BankAccount bankAccount;
 
     private static final int AMOUNT = 100;
+    private static final int ACCEPTABLE_MESSAGE_LENGTH = 10;
 
     /**
      * Prepare the tests.
@@ -57,7 +63,15 @@ class TestStrictBankAccount {
      */
     @Test
     public void testNegativeWithdraw() {
-        fail("To be implemented");
+        try{
+            bankAccount.withdraw(mRossi.getUserID(), -AMOUNT);
+            Assertions.fail("Withdrawing a negative amount of money should have thrown an error. Instead it went through");
+        }catch(IllegalArgumentException e){
+            assertEquals(0, bankAccount.getBalance());
+            assertNotNull(e.getMessage());
+            assertFalse(e.getMessage().isBlank());
+            assertTrue(e.getMessage().length() >= ACCEPTABLE_MESSAGE_LENGTH);
+        }
     }
 
     /**
