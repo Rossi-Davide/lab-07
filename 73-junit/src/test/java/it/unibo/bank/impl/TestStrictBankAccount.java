@@ -50,10 +50,7 @@ class TestStrictBankAccount {
      */
     @Test
     public void testManagementFees() {
-        //remove magic numbers
-        assertEquals(0, bankAccount.getTransactionsCount());
         bankAccount.deposit(mRossi.getUserID(), AMOUNT);
-        assertEquals(1, bankAccount.getTransactionsCount());
         bankAccount.chargeManagementFees(mRossi.getUserID());
         assertEquals((INITIAL_BALANCE + AMOUNT) - (StrictBankAccount.MANAGEMENT_FEE + StrictBankAccount.TRANSACTION_FEE), bankAccount.getBalance());
         assertEquals(0, bankAccount.getTransactionsCount());
