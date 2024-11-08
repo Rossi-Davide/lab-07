@@ -66,6 +66,7 @@ class TestStrictBankAccount {
     public void testNegativeWithdraw() {
             bankAccount.withdraw(mRossi.getUserID(), -AMOUNT);
             assertEquals(INITIAL_BALANCE, bankAccount.getBalance());
+            assertEquals(0, bankAccount.getTransactionsCount());
     }
 
     /**
