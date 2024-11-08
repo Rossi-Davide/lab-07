@@ -73,6 +73,8 @@ class TestStrictBankAccount {
      */
     @Test
     public void testWithdrawingTooMuch() {
-        fail("To be implemented");
+        bankAccount.withdraw(mRossi.getUserID(),(INITIAL_BALANCE + AMOUNT));
+        assertEquals(INITIAL_BALANCE, bankAccount.getBalance());
+        assertEquals(0, bankAccount.getTransactionsCount());
     }
 }
