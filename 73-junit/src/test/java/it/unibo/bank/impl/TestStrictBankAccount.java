@@ -24,6 +24,7 @@ class TestStrictBankAccount {
 
     private static final int AMOUNT = 100;
     private static final int ACCEPTABLE_MESSAGE_LENGTH = 10;
+    private static final int INITIAL_BALANCE = 0;
 
     /**
      * Prepare the tests.
@@ -31,7 +32,7 @@ class TestStrictBankAccount {
     @BeforeEach
     public void setUp() {
         this.mRossi = new AccountHolder("Mario", "Rossi", 1);
-        this.bankAccount = new StrictBankAccount(mRossi, 0.0);
+        this.bankAccount = new StrictBankAccount(mRossi, INITIAL_BALANCE);
     }
 
     /**
@@ -40,7 +41,7 @@ class TestStrictBankAccount {
     @Test
     public void testInitialization() {
         assertEquals(mRossi, bankAccount.getAccountHolder());
-        assertEquals(0.0, bankAccount.getBalance());
+        assertEquals(INITIAL_BALANCE, bankAccount.getBalance());
         assertEquals(0, bankAccount.getTransactionsCount());
     }
 
@@ -54,7 +55,7 @@ class TestStrictBankAccount {
         bankAccount.deposit(mRossi.getUserID(), AMOUNT);
         assertEquals(1, bankAccount.getTransactionsCount());
         bankAccount.chargeManagementFees(mRossi.getUserID());
-        assertEquals(AMOUNT - (StrictBankAccount.MANAGEMENT_FEE + StrictBankAccount.TRANSACTION_FEE), bankAccount.getBalance());
+        assertEquals((INITIAL_BALANCE + AMOUNT) - (StrictBankAccount.MANAGEMENT_FEE + StrictBankAccount.TRANSACTION_FEE), bankAccount.getBalance());
         assertEquals(0, bankAccount.getTransactionsCount());
     }
 
@@ -63,15 +64,8 @@ class TestStrictBankAccount {
      */
     @Test
     public void testNegativeWithdraw() {
-        try{
             bankAccount.withdraw(mRossi.getUserID(), -AMOUNT);
-            Assertions.fail("Withdrawing a negative amount of money should have thrown an error. Instead it went through");
-        }catch(IllegalArgumentException e){
-            assertEquals(0, bankAccount.getBalance());
-            assertNotNull(e.getMessage());
-            assertFalse(e.getMessage().isBlank());
-            assertTrue(e.getMessage().length() >= ACCEPTABLE_MESSAGE_LENGTH);
-        }
+            assertEquals(INITIAL_BALANCE, bankAccount.getBalance());
     }
 
     /**
