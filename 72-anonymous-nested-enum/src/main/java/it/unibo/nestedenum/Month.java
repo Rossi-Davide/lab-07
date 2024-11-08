@@ -29,7 +29,7 @@ public enum Month{
     public static Month fromString(final String monthString){
         final ArrayList<Month> candidates= new ArrayList<>();
         for(Month m : Month.values()){
-            if(m.toString().contains(monthString)){
+            if(m.toString().toLowerCase().contains(monthString.toLowerCase())){
                 candidates.add(m);
             }
         }
