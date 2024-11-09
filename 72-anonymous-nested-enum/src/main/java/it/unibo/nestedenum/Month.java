@@ -1,6 +1,11 @@
 package it.unibo.nestedenum;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import it.unibo.functional.Transformers;
+import it.unibo.functional.api.Function;
 
 public enum Month{
     JANUARY(31),
@@ -27,18 +32,18 @@ public enum Month{
     }
 
     public static Month fromString(final String monthString){
-        final ArrayList<Month> candidates= new ArrayList<>();
-        for(Month m : Month.values()){
-            if(m.toString().toLowerCase().contains(monthString.toLowerCase())){
-                candidates.add(m);
+        final List<Month> matches = Transformers.select(List.of(Month.values()), new Function<Month,Boolean>() {
+            @Override
+            public Boolean call(final Month input) {
+                return input.toString().toLowerCase().contains(monthString.toLowerCase());
             }
-        }
-        if(candidates.size() == 0){
+        });
+        if(matches.size() == 0){
             throw new IllegalArgumentException("No month with such name exists");
         }
-        if(candidates.size() > 1){
+        if(matches.size() > 1){
             throw new IllegalArgumentException("More matches found, string ambiguous");
         }
-        return candidates.get(0);
+        return matches.get(0);
     }
 }
