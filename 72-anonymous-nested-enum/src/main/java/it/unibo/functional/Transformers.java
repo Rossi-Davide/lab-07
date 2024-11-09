@@ -114,10 +114,10 @@ public final class Transformers {
      * @param <I> elements type
      */
     public static <I> List<I> reject(final Iterable<I> base, final Function<I, Boolean> test) {
-        return flattenTransform(base, new Function<I,Collection<? extends I>>() {
+        return select(base, new Function<I,Boolean>() {
             @Override
-            public Collection<? extends I> call(I input) {
-                return test.call(input) ? Collections.emptyList() : List.of(input);
+            public Boolean call(I input) {
+                return !test.call(input);
             }      
         });
     }
