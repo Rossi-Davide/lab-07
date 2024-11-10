@@ -55,21 +55,25 @@ public final class MonthSorterNested implements MonthSorter {
 
     @Override
     public Comparator<String> sortByDays() {
-        return new Comparator<String>() {
-            @Override
-            public int compare(final String o1,final String o2) {
-                return Integer.compare(Month.fromString(o1).getDays(), Month.fromString(o2).getDays()); 
-            }
-        };
+        return new SortByDate();
     }
 
     @Override
     public Comparator<String> sortByOrder() {
-        return new Comparator<String>() {
-            @Override
-            public int compare(final String o1,final String o2) {
-                return Month.fromString(o1).compareTo(Month.fromString(o2));
-            }
-        };
+        return new SortByMonthOrder();
+    }
+
+    private static class SortByMonthOrder implements Comparator<String>{
+        @Override
+        public int compare(final String o1,final String o2) {
+            return Month.fromString(o1).compareTo(Month.fromString(o2));
+        }
+    }
+
+    private static class SortByDate implements Comparator<String>{
+        @Override
+        public int compare(final String o1,final String o2) {
+            return Integer.compare(Month.fromString(o1).getDays(), Month.fromString(o2).getDays()); 
+        }
     }
 }
